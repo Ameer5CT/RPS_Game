@@ -9,9 +9,9 @@ int main() {
 	char players[MAX_PLAYERS][MAX_PLAYER_NAME] = {0};
 	int scores[MAX_PLAYERS][SCORES_COLUMNS] = {0};
 	int players_number = 0;
-	int i, player1, player2, player1_choice, player2_choice, loop;
+	int i, player1, player2, player1_choice, player2_choice, loop, lowest_pos, highest_pos;
 	int win, lose, total;
-	float win_percentage;
+	float win_percentage, lowest_percentage, highest_percentage;
 	
 	printf("\n ==============================");
     printf("\n ||                          ||");
@@ -132,21 +132,35 @@ int main() {
         			printf("\n !!! You didn't add any players yet !!!");
         			continue;
 				}
-        		
+        		lowest_percentage = 100.0;
+                lowest_pos = 0;
+                highest_percentage = 0.0;
+                highest_pos = 0;
         		printf("\n Player     \tWin \tLose \tTotal \tWin_percentage");
-        		
         		for (i = 0; i < players_number; i++) {
         			win = scores[i][0];
         			lose = scores[i][1] - scores[i][0];
         			total = scores[i][1];
-        			if(scores[i][1] != 0){
+        			if (scores[i][1] != 0){
         				win_percentage = (float) win/total * 100;
 					} else {
-						win_percentage = 0;
+						win_percentage = 0.0;
 					}
 					
         			printf("\n %10s \t%d \t%d \t%d \t%f", players[i], win, lose, total, win_percentage);
+        			
+        			if (win_percentage < lowest_percentage) {
+                        lowest_percentage = win_percentage;
+                        lowest_pos = i;
+                    }
+                    if (win_percentage > highest_percentage) {
+                        highest_percentage = win_percentage;
+                        highest_pos = i;
+                    }
 				}
+                
+                printf("\n The lowest win percentage: %s", players[lowest_pos]);
+                printf("\n The highest win percentage: %s", players[highest_pos]);
         		break;
         	case 4:
         		break;
